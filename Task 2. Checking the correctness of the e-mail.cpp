@@ -45,15 +45,55 @@
 #include <iostream>
 #include <string>
 using namespace std;
+//function that output first half of the email
+string first_half(string szEMail)
+{
+    // variable number of '@'
+    int nAt = 0;
+    // return variable
+    string szFirstHalfEMail;
 
-//функция которая разобъёт адрес на первую половину
-//функция которая разобъёт адрес на вторую половину
+    //cheking the correctness of the input first character
+    if (szEMail[0] == '@' || '.') {
+        return "error: incorrect e-mail";
+    }
+    else {
+        szFirstHalfEMail += szEMail[0];
+    }
+
+    for (int i = 1; i < szEMail.length(); i++) {
+        if (szEMail[i] == '@') nAt++;
+        if (nAt == 0) szFirstHalfEMail += szEMail[i];
+    }
+
+    if (nAt == 1) {
+        return szFirstHalfEMail;
+    }
+    else {
+        return "error: incorrect e-mail";
+    }
+}
+
+//function that output other half of the email
+string other_half(string szEMail) {
+    if (first_half(szEMail) != "error: incorrect e-mail") {
+        string szOtherHalfEMail;
+
+    }
+    else {
+        return "error: incorrect e-mail";
+    }
+}
 //возвратит две части или ошибку
 //проверка каждой из половин с помощью "словаря"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    string szEMail;
+    cout << "Input e-mail:";
+    cin >> szEMail;
+
+
 }
 
 
