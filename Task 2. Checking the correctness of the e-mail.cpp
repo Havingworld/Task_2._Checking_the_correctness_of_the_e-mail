@@ -54,18 +54,18 @@ string first_half(string szEMail)
     string szFirstHalfEMail;
 
     //cheking the correctness of the input first character
-    if (szEMail[0] == '@' || '.') {
+    if (szEMail[0] == '@' || szEMail[0] == '.') {
         return "error: incorrect e-mail";
     }
     else {
         szFirstHalfEMail += szEMail[0];
     }
-
-    for (int i = 1; i < szEMail.length(); i++) {
+    //chekink and counting all characters
+    for (int i = 1; i < szEMail.length(); i++) {    
         if (szEMail[i] == '@') nAt++;
         if (nAt == 0) szFirstHalfEMail += szEMail[i];
     }
-
+    //return first half of the email if correct, else return error message
     if (nAt == 1) {
         return szFirstHalfEMail;
     }
@@ -76,16 +76,22 @@ string first_half(string szEMail)
 
 //function that output other half of the email
 string other_half(string szEMail) {
+    //if first half correct, begining program, else return error meseg
     if (first_half(szEMail) != "error: incorrect e-mail") {
         string szOtherHalfEMail;
+        bool bAt = false;
 
+        for (int i = 0; i < szEMail.length(); i++) { 
+            if (bAt) szOtherHalfEMail += szEMail[i];
+            if (szEMail[i] == '@') bAt = true;
+        }
+        return szOtherHalfEMail;
     }
     else {
         return "error: incorrect e-mail";
     }
 }
-//возвратит две части или ошибку
-//проверка каждой из половин с помощью "словаря"
+
 
 int main()
 {
@@ -93,6 +99,12 @@ int main()
     cout << "Input e-mail:";
     cin >> szEMail;
 
+    //cout << "First half e-mail: " << first_half(szEMail) << endl;
+    //cout << "Second half e-mail: " << other_half(szEMail) << endl;
+    
+    //составить словарь проверки
+
+    //проверка каждой из половин с помощью "словаря"
 
 }
 
