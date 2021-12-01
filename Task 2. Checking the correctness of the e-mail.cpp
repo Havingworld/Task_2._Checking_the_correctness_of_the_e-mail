@@ -72,6 +72,7 @@ string first_half(string szEMail)
 {
     // variable number of '@'
     int nAt = 0;
+    bool bNotDublePoint = true;
     // return variable
     string szFirstHalfEMail;
 
@@ -86,15 +87,17 @@ string first_half(string szEMail)
     for (int i = 1; i < szEMail.length(); i++) {    
         if (szEMail[i] == '@') nAt++;
         if (nAt == 0) szFirstHalfEMail += szEMail[i];
+        if (szEMail[i] == '.' && szEMail[i - 1] == '.') bNotDublePoint = false;
     }
     //return first half of the email if correct, else return error message
-    if (nAt == 1) {
+    if (nAt == 1 && szFirstHalfEMail.length() <= 64 && bNotDublePoint) {
         return szFirstHalfEMail;
     }
     else {
         return "error: incorrect e-mail";
     }
 }
+
 
 //function that output other half of the email
 string other_half(string szEMail) {
@@ -107,13 +110,27 @@ string other_half(string szEMail) {
             if (bAt) szOtherHalfEMail += szEMail[i];
             if (szEMail[i] == '@') bAt = true;
         }
-        return szOtherHalfEMail;
+        
+        //check quantity ponts and quantity chars before points
+        int nPoint = 0;
+        bool bCharBeforePoint = false;
+        if (szOtherHalfEMail[0] != '.') bCharBeforePoint = true;
+
+                for (int i = 0; i < szOtherHalfEMail.length(); i++) {
+            if (szOtherHalfEMail[i] == '.') nPoint++;
+                    }
+        // check on correct
+        if (szOtherHalfEMail.length() >= 3 && szOtherHalfEMail.length() <= 63 && nPoint == 1 && bCharBeforePoint) {
+            return szOtherHalfEMail;
+        }
+        else {
+            return "error: incorrect e-mail";
+        }
     }
     else {
         return "error: incorrect e-mail";
     }
-}
-
+} 
 
 int main()
 {
@@ -124,13 +141,54 @@ int main()
     //cout << "First half e-mail: " << first_half(szEMail) << endl;
     //cout << "Second half e-mail: " << other_half(szEMail) << endl;
     
-    //составить словарь проверки
-    string szDictionary = "!#$%&'*+—./=?@^{|}~";
-    //проверка каждой из половин с помощью "словаря"
-    //запрещено две точки подрят
-    //левая часть >1 и <=64 символов
-    //правая часть >3 и <=63 символов
-    //в правой части всего одна точка, слево от точки не менее 1 символа
+    //dictonary check
+    string szDictionaryForEmail = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123546789-.";
+    string szDictionaryForFirstHalf = "!#$%&'*+-/=?^_`{|}~";
+    
+    //cheking every half with dictonary
+    bool bCheckOk = false;
+    for (int i = 0; i < first_half(szEMail).length(); i++) {
+        for (int p = 0; p < szDictionaryForEmail.length(); p++) {
+            if (first_half(szEMail)[i] == szDictionaryForEmail[p]) {
+                bCheckOk = true;
+                break;
+            }
+            else {
+                bCheckOk = false;
+            }
+        }
+    }
+    for (int i = 0; i < first_half(szEMail).length(); i++) {
+        for (int p = 0; p < szDictionaryForFirstHalf.length(); p++) {
+            if (first_half(szEMail)[i] == szDictionaryForFirstHalf[p]) {
+                bCheckOk = true;
+                break;
+            }
+            else {
+                bCheckOk = false;
+            }
+
+        }
+    }
+    for (int i = 0; i < other_half(szEMail).length(); i++) {
+        for (int p = 0; p < szDictionaryForEmail.length(); p++) {
+            if (other_half(szEMail)[i] == szDictionaryForEmail[p]) {
+                bCheckOk = true;
+                break;
+            }
+            else {
+                bCheckOk = false;
+            }
+        }
+    }
+    if (bCheckOk && first_half(szEMail) != "error: incorrect e-mail" && other_half(szEMail) != "error: incorrect e-mail") {
+        cout << "E-mail correct." << endl;
+    }
+    else
+    {
+        cout << "Incorrect e-mail!" << endl;
+    }
+
 
 }
 
