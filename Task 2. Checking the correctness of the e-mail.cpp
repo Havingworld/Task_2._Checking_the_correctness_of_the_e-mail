@@ -115,12 +115,14 @@ string other_half(string szEMail) {
         int nPoint = 0;
         bool bCharBeforePoint = false;
         if (szOtherHalfEMail[0] != '.') bCharBeforePoint = true;
+        bool bNotDublePoint = true;
 
                 for (int i = 0; i < szOtherHalfEMail.length(); i++) {
             if (szOtherHalfEMail[i] == '.') nPoint++;
+            if (szEMail[i] == '.' && szEMail[i - 1] == '.') bNotDublePoint = false;
                     }
         // check on correct
-        if (szOtherHalfEMail.length() >= 3 && szOtherHalfEMail.length() <= 63 && nPoint == 1 && bCharBeforePoint) {
+        if (szOtherHalfEMail.length() > 1 && szOtherHalfEMail.length() <= 63 && bNotDublePoint && bCharBeforePoint) {
             return szOtherHalfEMail;
         }
         else {
