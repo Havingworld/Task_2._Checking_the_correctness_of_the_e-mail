@@ -111,18 +111,18 @@ string other_half(string szEMail) {
             if (szEMail[i] == '@') bAt = true;
         }
         
-        //check quantity ponts and quantity chars before points
-        int nPoint = 0;
-        bool bCharBeforePoint = false;
-        if (szOtherHalfEMail[0] != '.') bCharBeforePoint = true;
-        bool bNotDublePoint = true;
+        //check double points
 
-                for (int i = 0; i < szOtherHalfEMail.length(); i++) {
-            if (szOtherHalfEMail[i] == '.') nPoint++;
-            if (szEMail[i] == '.' && szEMail[i - 1] == '.') bNotDublePoint = false;
-                    }
+        bool bNotDublePoint = true;
+        if (szOtherHalfEMail.length() > 1) {
+            for (int i = 0; i < szOtherHalfEMail.length() - 1; i++) {
+
+                if (szOtherHalfEMail[i] == '.' && szOtherHalfEMail[i + 1] == '.') bNotDublePoint = false;
+            }
+        }
+
         // check on correct
-        if (szOtherHalfEMail.length() > 1 && szOtherHalfEMail.length() <= 63 && bNotDublePoint && bCharBeforePoint) {
+        if (szOtherHalfEMail.length() > 0 && szOtherHalfEMail.length() <= 63 && bNotDublePoint) {
             return szOtherHalfEMail;
         }
         else {
